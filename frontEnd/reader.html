@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Reader Page</title>
+        
+    </head>
+    <body>
+        <button onclick="printRecent()">Most Recent Quote</button>
+        <button onclick="printAll()">All Quotes</button>
+        <table>
+            <tr>
+                <th>Quote</th>
+                <th>Author</th>
+            </tr>
+            <tbody id="data">
+
+            </tbody>
+        </table>
+        <script>
+            function printRecent(){
+
+                let request = new XMLHttpRequest();
+                
+                request.open("GET", "https://mobez.rocks/COMP4537/asg1/v1/php/recentReader.php", true);
+                request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                request.send();
+
+                request.onreadystatechange = function() {
+                    if(this.readyState == 4 && this.status == 200) {
+                        var data = JSON.parse(this.responseText);
+                        console.log(data);
+                        var html = "";
+
+                        for(let i = 0; i < data.length; i++){
+                            let quote = data[i].quote;
+                            console.log(name);
+                            let author = data[i].author;
+                            html += "<tr>";
+                                html += "<td>" + quote + "</td>";
+                                html += "<td>" + author + "</td>";
+                            html += "</tr>";
+                        }
+
+                        document.getElementById("data").innerHTML = html;
+                    }
+                }
+            }
+
+            function printAll(){
+
+                let request = new XMLHttpRequest();
+
+                request.open("GET", "https://mobez.rocks/COMP4537/asg1/v1/php/reader.php", true);
+                request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                request.send();
+
+                request.onreadystatechange = function() {
+                    if(this.readyState == 4 && this.status == 200) {
+                        var data = JSON.parse(this.responseText);
+                        console.log(data);
+                        var html = "";
+
+                        for(let i = 0; i < data.length; i++){
+                            let quote = data[i].quote;
+                            console.log(name);
+                            let author = data[i].author;
+                            html += "<tr>";
+                                html += "<td>" + quote + "</td>";
+                                html += "<td>" + author + "</td>";
+                            html += "</tr>";
+                        }
+
+                        document.getElementById("data").innerHTML = html;
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
