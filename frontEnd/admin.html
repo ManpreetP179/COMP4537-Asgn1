@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Admin Page</title>
+    </head>
+    <body>
+        <div id="allQuotes"></div>
+        <div id="newQuote"></div>
+        <button type="button" onclick="addQuote()">Add New Quote</button>
 
+        <script>
+            let button = document.getElementById('save')[0];
+            let counter = 0;
+
+            function incrementer(){
+                counter++;
+                return counter;
+            }
+
+            function addQuote() {
+                let newQuote = document.getElementById('newQuote');
+
+                let quote = document.createElement("input");
+                let author = document.createElement("input");
+                let save = document.createElement('button');
+                let br1 = document.createElement('br');
+                let br2 = document.createElement('br');
+                
+                quote.setAttribute('type', 'text');
+                quote.setAttribute('id', 'quote');
+                
+                author.setAttribute('type', 'text');
+                author.setAttribute('id', 'author');
+                
+                save.innerHTML = 'Save Quote';
+                save.setAttribute('id', 'save');
+                save.setAttribute('onclick', 'saveQuote()');
+                
+                newQuote.append(br1, quote, author, br2, save);
+            }
+            
+            function saveQuote(){
+                let quote = document.getElementById('quote').value;
+                let author = document.getElementById('author').value;
+                
+                incrementer();
+                
+                const xhr = new XMLHttpRequest();
+
+                xhr.open('POST', 'https://mobez.rocks/COMP4537/asg1/v1/php/admin.php', true);
+
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                xhr.onreadystatechange = function() {
+                    if(this.readyState === 4 && this.status === 200) {
+                        console.log(quote);
+                        console.log(author);
+                    }
+                }
+
+                xhr.send('id=' + counter + '&quote=' + quote+ '&author=' + author);
+                
+                let removeQ = document.getElementById('quote');
+                let removeA = document.getElementById('author');
+                let removeS = document.getElementById('save');
+
+                removeQ.remove();
+                removeA.remove();
+                removeS.remove();
+            }
+        </script>
+    </body>
+</html>
